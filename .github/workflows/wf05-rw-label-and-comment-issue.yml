@@ -16,7 +16,7 @@ on:
         description: 'Label'
         required: true
         type: string
-        default: 'learning2023'
+        default: 'learning2025'
 
     outputs:
       message:
@@ -28,7 +28,7 @@ permissions:
 
 jobs: 
 
-  # Add learning2023 label to issue
+  # Add learning2025 label to issue
   add-label:
     runs-on: ubuntu-latest
     steps:
@@ -79,9 +79,8 @@ jobs:
     steps:
     
       - name: Create an Issue Comment
-        uses: simpleactions/create-issue-comment@v1.0.0
+        uses: peter-evans/create-or-update-comment@v4
         with:
-          github_token: ${{ env.GITHUB_TOKEN }}
           issue_number: ${{ env.ISSUE_NUMBER }}
           body: |
             ### Thank you for your contribution!
