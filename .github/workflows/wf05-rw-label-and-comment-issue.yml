@@ -81,7 +81,7 @@ jobs:
       - name: Create an Issue Comment
         uses: peter-evans/create-or-update-comment@v4
         with:
-          issue_number: ${{ env.ISSUE_NUMBER }}
+          issue-number: ${{ env.ISSUE_NUMBER }}
           body: |
             ### Thank you for your contribution!
             Thank you for opening this issue. We will get back to you soon.
