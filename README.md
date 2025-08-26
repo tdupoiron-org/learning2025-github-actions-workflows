@@ -1,3 +1,3 @@
-# learning2023-github-actions
+# learning2025-github-actions
 
 This repository provides examples of workflows for beginners
