@@ -10,7 +10,7 @@ permissions:
 
 jobs: 
 
-  # Add learning2023 label to issue
+  # Add learning2025 label to issue
   add-label:
     runs-on: ubuntu-latest
     steps:
@@ -23,7 +23,7 @@ jobs:
               issue_number: context.issue.number,
               owner: context.repo.owner,
               repo: context.repo.repo,
-              labels: ['learning2023']
+              labels: ['learning2025']
             })
 
   # Assign to tdupoiron
