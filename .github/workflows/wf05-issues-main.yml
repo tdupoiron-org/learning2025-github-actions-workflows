@@ -16,4 +16,4 @@ jobs:
     with:
       issue_number: ${{ github.event.issue.number }}
       assignee: tdupoiron
-      label: learning2023
+      label: learning2025
