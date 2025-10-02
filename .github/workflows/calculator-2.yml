@@ -1,0 +1,82 @@
+name: Calculator 2
+
+on:
+  workflow_dispatch:
+    inputs:
+      first_number:
+        description: 'First number'
+        required: true
+        type: number
+        default: '0'
+      second_number:
+        description: 'Second number'
+        required: true
+        type: number
+        default: '0'
+      operator:
+        description: 'Operator'
+        required: true
+        type: choice
+        options:
+          - '+'
+          - '-'
+          - '*'
+          - '/'
+        default: '+'
+
+jobs:
+  calculate:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Calculate Result
+        id: calculate
+        run: |
+          FIRST_NUMBER="${{ inputs.first_number }}"
+          SECOND_NUMBER="${{ inputs.second_number }}"
+          OPERATOR="${{ inputs.operator }}"
+          
+          echo "First number: $FIRST_NUMBER"
+          echo "Second number: $SECOND_NUMBER"
+          echo "Operator: $OPERATOR"
+          
+          # Perform calculation based on operator
+          case "$OPERATOR" in
+            "+")
+              RESULT=$(echo "$FIRST_NUMBER + $SECOND_NUMBER" | bc -l)
+              ;;
+            "-")
+              RESULT=$(echo "$FIRST_NUMBER - $SECOND_NUMBER" | bc -l)
+              ;;
+            "*")
+              RESULT=$(echo "$FIRST_NUMBER * $SECOND_NUMBER" | bc -l)
+              ;;
+            "/")
+              if [ "$SECOND_NUMBER" = "0" ]; then
+                echo "Error: Division by zero is not allowed!"
+                exit 1
+              fi
+              RESULT=$(echo "scale=6; $FIRST_NUMBER / $SECOND_NUMBER" | bc -l)
+              ;;
+            *)
+              echo "Error: Invalid operator!"
+              exit 1
+              ;;
+          esac
+          
+          echo "Result: $RESULT"
+          echo "result=$RESULT" >> $GITHUB_OUTPUT
+          
+      - name: Display Result in Summary
+        run: |
+          echo "# Calculator 2 Results 🧮" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Calculation Details" >> $GITHUB_STEP_SUMMARY
+          echo "- **First Number:** ${{ inputs.first_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Second Number:** ${{ inputs.second_number }}" >> $GITHUB_STEP_SUMMARY
+          echo "- **Operator:** ${{ inputs.operator }}" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## Result" >> $GITHUB_STEP_SUMMARY
+          echo "**${{ inputs.first_number }} ${{ inputs.operator }} ${{ inputs.second_number }} = ${{ steps.calculate.outputs.result }}**" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "✅ Calculation completed successfully!"
